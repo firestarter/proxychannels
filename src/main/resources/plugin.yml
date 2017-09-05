@@ -1,0 +1,3 @@
+name: ProxyChannels
+version: 1.0.0-SNAPSHOT
+main: com.algorithmjunkie.mc.proxychannels.ProxyChannelsPlugin

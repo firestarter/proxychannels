@@ -1,0 +1,35 @@
+plugins {
+    id 'com.github.johnrengelman.shadow' version '2.0.1'
+    id 'org.jetbrains.kotlin.jvm' version '1.1.4-3'
+}
+
+group 'com.algorithmjunkie.mc'
+version '2.0.0-SNAPSHOT'
+
+apply plugin: 'kotlin'
+
+repositories {
+    mavenCentral()
+    jcenter()
+    maven { url "https://oss.sonatype.org/content/groups/public" }
+    maven { url "https://repo.aikar.co/nexus/content/groups/aikar" }
+}
+
+dependencies {
+    compileOnly 'net.md-5:bungeecord-api:1.9-SNAPSHOT'
+    //compile 'co.aikar:acf-bungee:0.5.0-SNAPSHOT'
+    compile files('acf-bungee-0.5.0-SNAPSHOT-shaded.jar')
+    compile 'org.jetbrains.kotlin:kotlin-stdlib-jre8:1.1.4-3'
+}
+
+shadowJar {
+    relocate 'co.aikar.commands', 'com.algorithmjunkie.mc.proxychannels.depend'
+}
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+compileJava {
+    options.compilerArgs += ["-parameters"]
+    options.fork = true
+}
