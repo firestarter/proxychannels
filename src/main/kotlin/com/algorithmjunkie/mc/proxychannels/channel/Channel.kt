@@ -1,6 +1,10 @@
 package com.algorithmjunkie.mc.proxychannels.channel
 
+import com.algorithmjunkie.mc.proxychannels.ProxyChannelsPlugin
 import com.algorithmjunkie.mc.proxychannels.command.ChannelCommand
+import com.algorithmjunkie.mc.proxychannels.command.ProxyChannelsCommand
+import com.imaginarycode.minecraft.redisbungee.RedisBungee
+import com.imaginarycode.minecraft.redisbungee.RedisBungeeAPI
 import net.md_5.bungee.api.ChatColor
 import net.md_5.bungee.api.ChatMessageType
 import net.md_5.bungee.api.CommandSender
@@ -36,10 +40,16 @@ class Channel(val name: String,
             }
         }
 
+        val senderServerName: String = if (sender is ProxiedPlayer && ProxyChannelsPlugin.instance.isRedisBungeePresent()) {
+            RedisBungee.getApi().getServerFor(sender.uniqueId).name
+        } else {
+            "Proxy"
+        }
+
         val format = TextComponent(ChatColor.translateAlternateColorCodes(
                 '&',
                 this.format
-                        .replace("%server%", (sender as? ProxiedPlayer)?.server?.info?.name?.capitalize() ?: "Proxy")
+                        .replace("%server%", senderServerName)
                         .replace("%user%", if (sender is ProxiedPlayer) sender.displayName else "Console")
                         .replace("%message%", message)
         ))

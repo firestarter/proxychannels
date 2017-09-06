@@ -12,6 +12,8 @@ class ProxyChannelsPlugin : Plugin() {
     lateinit var channelManager: ChannelManager
 
     override fun onEnable() {
+        instance = this
+
         commandManager = BungeeCommandManager(this)
         channelManager = ChannelManager(this)
         channelManager.channelsConfig.reload()
@@ -21,5 +23,13 @@ class ProxyChannelsPlugin : Plugin() {
         val pluginManager = proxy.pluginManager
         pluginManager.registerListener(this, ChatListener(this))
         pluginManager.registerListener(this, PlayerListener(this))
+    }
+
+    internal fun isRedisBungeePresent(): Boolean {
+        return proxy.pluginManager.getPlugin("RedisBungee") != null
+    }
+
+    companion object {
+        lateinit var instance: ProxyChannelsPlugin
     }
 }
