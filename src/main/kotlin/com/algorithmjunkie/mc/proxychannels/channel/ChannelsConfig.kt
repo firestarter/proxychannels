@@ -2,6 +2,7 @@ package com.algorithmjunkie.mc.proxychannels.channel
 
 import com.algorithmjunkie.mc.proxychannels.ProxyChannelsPlugin
 import net.md_5.bungee.api.ChatColor
+import net.md_5.bungee.api.ProxyServer
 import net.md_5.bungee.api.chat.ComponentBuilder
 import net.md_5.bungee.config.Configuration
 import net.md_5.bungee.config.YamlConfiguration
@@ -38,6 +39,17 @@ class ChannelsConfig(private val plugin: ProxyChannelsPlugin) {
                     sect.getString("format")
             )
 
+            val addMessage = ComponentBuilder("You are now a member of ").color(ChatColor.YELLOW)
+                    .append(channelName).color(ChatColor.LIGHT_PURPLE)
+                    .append(".").color(ChatColor.YELLOW)
+                    .create()
+
+            plugin.proxy.players.forEach {
+                if (channel.addMember(it)) {
+                    it.sendMessage(*addMessage)
+                }
+            }
+
             plugin.commandManager.registerCommand(channel.command)
             newChannels.put(channelName, channel)
         }
@@ -46,7 +58,7 @@ class ChannelsConfig(private val plugin: ProxyChannelsPlugin) {
             oldChannels.remove(it.key)
             oldChannels.map { it.value }.forEach {
                 val info = ComponentBuilder("${it.name} ").color(ChatColor.LIGHT_PURPLE)
-                        .append("has been renamed!").color(ChatColor.RED)
+                        .append("has been renamed or removed.").color(ChatColor.YELLOW)
                         .create()
                 it.members.forEach { member -> member.value.member.sendMessage(*info) }
             }

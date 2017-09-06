@@ -2,6 +2,7 @@ package com.algorithmjunkie.mc.proxychannels.channel
 
 import com.algorithmjunkie.mc.proxychannels.command.ChannelCommand
 import net.md_5.bungee.api.ChatColor
+import net.md_5.bungee.api.ChatMessageType
 import net.md_5.bungee.api.CommandSender
 import net.md_5.bungee.api.ProxyServer
 import net.md_5.bungee.api.chat.ComponentBuilder
@@ -18,18 +19,6 @@ class Channel(val name: String,
     internal val members: HashMap<UUID, ChannelMember> = HashMap()
     internal val command: ChannelCommand = ChannelCommand(this)
 
-    init {
-        val addMessage = ComponentBuilder("You are now a member of ").color(ChatColor.YELLOW)
-                .append(name).color(ChatColor.LIGHT_PURPLE)
-                .append(".").color(ChatColor.YELLOW)
-                .create()
-
-        ProxyServer.getInstance().players.forEach {
-            addMember(it)
-            it.sendMessage(*addMessage)
-        }
-    }
-
     fun sendMessage(sender: CommandSender, message: String) {
         if (sender is ProxiedPlayer) {
             if (!members.containsKey(sender.uniqueId)) return
@@ -37,8 +26,10 @@ class Channel(val name: String,
 
             if (member.muted) {
                 sender.sendMessage(
-                        *ComponentBuilder(name).color(ChatColor.GREEN)
-                                .append(" is currently muted.").color(ChatColor.AQUA)
+                        ChatMessageType.ACTION_BAR,
+                        *ComponentBuilder("You currently have ").color(ChatColor.YELLOW)
+                                .append("$name ").color(ChatColor.LIGHT_PURPLE)
+                                .append("muted.").color(ChatColor.YELLOW)
                                 .create()
                 )
                 return
