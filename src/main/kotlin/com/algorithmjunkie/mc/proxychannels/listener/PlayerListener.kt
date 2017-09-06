@@ -6,13 +6,11 @@ import net.md_5.bungee.api.event.PostLoginEvent
 import net.md_5.bungee.api.plugin.Listener
 import net.md_5.bungee.event.EventHandler
 
-class PlayerListener(private val plugin: ProxyChannelsPlugin): Listener {
+class PlayerListener(private val plugin: ProxyChannelsPlugin) : Listener {
     @EventHandler
     fun onJoin(event: PostLoginEvent) {
         plugin.channelManager.channels.forEach {
-            if (event.player.hasPermission(it.permission)) {
-                it.addMember(event.player)
-            }
+            it.addMember(event.player)
         }
     }
 
