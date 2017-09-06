@@ -2,13 +2,10 @@ package com.algorithmjunkie.mc.proxychannels.channel
 
 import com.algorithmjunkie.mc.proxychannels.ProxyChannelsPlugin
 import com.algorithmjunkie.mc.proxychannels.command.ChannelCommand
-import com.algorithmjunkie.mc.proxychannels.command.ProxyChannelsCommand
 import com.imaginarycode.minecraft.redisbungee.RedisBungee
-import com.imaginarycode.minecraft.redisbungee.RedisBungeeAPI
 import net.md_5.bungee.api.ChatColor
 import net.md_5.bungee.api.ChatMessageType
 import net.md_5.bungee.api.CommandSender
-import net.md_5.bungee.api.ProxyServer
 import net.md_5.bungee.api.chat.ComponentBuilder
 import net.md_5.bungee.api.chat.TextComponent
 import net.md_5.bungee.api.connection.ProxiedPlayer

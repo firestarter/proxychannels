@@ -2,7 +2,6 @@ package com.algorithmjunkie.mc.proxychannels.channel
 
 import com.algorithmjunkie.mc.proxychannels.ProxyChannelsPlugin
 import net.md_5.bungee.api.ChatColor
-import net.md_5.bungee.api.ProxyServer
 import net.md_5.bungee.api.chat.ComponentBuilder
 import net.md_5.bungee.config.Configuration
 import net.md_5.bungee.config.YamlConfiguration
