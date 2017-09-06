@@ -11,16 +11,18 @@ class ChatListener(private val plugin: ProxyChannelsPlugin) : Listener {
     fun onChat(event: ChatEvent) {
         if (event.isCommand) return
         if (event.sender !is ProxiedPlayer) return
-        if (event.message.length <= 1) return
 
-        val first = event.message[0]
+        val player = event.sender as ProxiedPlayer
 
         plugin.channelManager.channels.forEach {
-            println(it.name)
-            if (it.triggers.contains(first)) {
+            if (it.hasMember(player) && it.getMember(player)!!.toggled) {
+                event.isCancelled = true
+                it.sendMessage(player, event.message)
+                return@forEach
+            } else if (event.message.length > 1 && it.triggers.contains(event.message[0])) {
                 event.isCancelled = true
                 val message = event.message.substring(1).trim()
-                it.sendMessage(event.sender as ProxiedPlayer, message)
+                it.sendMessage(player, message)
                 return@forEach
             }
         }

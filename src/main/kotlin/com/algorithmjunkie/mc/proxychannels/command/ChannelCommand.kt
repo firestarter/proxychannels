@@ -18,9 +18,23 @@ class ChannelCommand(private val channel: Channel) : BaseCommand(channel.name) {
     fun onExecute(sender: CommandSender, args: Array<String>) {
         if (sender == ProxyServer.getInstance().console || sender is ProxiedPlayer && channel.hasMember(sender)) {
             if (args.isEmpty()) {
-                sender.sendMessage(
-                        *ComponentBuilder("Please provide a message to send!").color(ChatColor.RED).create()
-                )
+                if (sender is ProxiedPlayer) {
+                    val member = channel.getMember(sender)!!
+                    member.toggled = !member.toggled
+                    sender.sendMessage(
+                            ChatMessageType.ACTION_BAR,
+                            *ComponentBuilder("You toggled ").color(ChatColor.YELLOW)
+                                    .append(if (member.toggled) "into" else "out of")
+                                    .append(" ${channel.name}").color(ChatColor.LIGHT_PURPLE)
+                                    .append(".").color(ChatColor.YELLOW)
+                                    .create()
+                    )
+                } else {
+                    sender.sendMessage(
+                            *ComponentBuilder("Console must provide a message to send.").color(ChatColor.RED)
+                                    .create()
+                    )
+                }
                 return
             }
             channel.sendMessage(sender, args.joinToString(" "))
