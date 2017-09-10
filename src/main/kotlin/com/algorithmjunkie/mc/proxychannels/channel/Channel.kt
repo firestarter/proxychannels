@@ -37,11 +37,16 @@ class Channel(val name: String,
             }
         }
 
-        val senderServerName: String = if (sender is ProxiedPlayer && ProxyChannelsPlugin.instance.isRedisBungeePresent()) {
-            RedisBungee.getApi().getServerFor(sender.uniqueId).name
-        } else {
-            "Proxy"
-        }
+        var senderServerName: String =
+                if (sender is ProxiedPlayer) {
+                    if (ProxyChannelsPlugin.instance.isRedisBungeePresent()) {
+                        RedisBungee.getApi().getServerFor(sender.uniqueId).name
+                    } else {
+                        sender.server.info.name
+                    }
+                } else {
+                    "Proxy"
+                }
 
         val format = TextComponent(ChatColor.translateAlternateColorCodes(
                 '&',
