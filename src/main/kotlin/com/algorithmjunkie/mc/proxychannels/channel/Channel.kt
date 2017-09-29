@@ -56,11 +56,19 @@ class Channel(val name: String,
                         .replace("%message%", message)
         ))
 
-        members.filter { !it.value.muted }
-                .map { it.value.member }
-                .forEach { it.sendMessage(format) }
+        val plugin = ProxyChannelsPlugin.instance
+        if (plugin.isRedisBungeePresent()) {
+            RedisBungee.getApi().sendChannelMessage(
+                    plugin.redisBungeeChannelName,
+                    "$name:::${format.toLegacyText()}"
+            )
+        } else {
+            members.filter { !it.value.muted }
+                    .map { it.value.member }
+                    .forEach { it.sendMessage(format) }
 
-        println(format.toLegacyText())
+            println(format.toLegacyText())
+        }
     }
 
     fun addMember(member: ProxiedPlayer): Boolean {

@@ -10,4 +10,8 @@ class ChannelManager(private val plugin: ProxyChannelsPlugin) {
         channels.forEach { plugin.commandManager.unregisterCommand(it.command) }
         channels.clear()
     }
+
+    fun getChannelByName(name: String): Channel? {
+        return channels.first { it.name == name }
+    }
 }
