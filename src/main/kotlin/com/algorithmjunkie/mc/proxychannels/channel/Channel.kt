@@ -48,32 +48,32 @@ class Channel(val name: String,
                     "Proxy"
                 }
 
-        val format = TextComponent(ChatColor.translateAlternateColorCodes(
+        val format = ChatColor.translateAlternateColorCodes(
                 '&',
                 this.format
                         .replace("%server%", senderServerName)
                         .replace("%user%", if (sender is ProxiedPlayer) sender.displayName else "Console")
                         .replace("%message%", message)
-        ))
+        )
 
         val plugin = ProxyChannelsPlugin.instance
         if (plugin.isRedisBungeePresent()) {
             RedisBungee.getApi().sendChannelMessage(
                     plugin.redisBungeeChannelName,
-                    "$name:::${format.toLegacyText()}"
+                    "$name:::$format"
             )
         } else {
             members.filter { !it.value.muted }
                     .map { it.value.member }
-                    .forEach { it.sendMessage(format) }
+                    .forEach { it.sendMessage(*TextComponent.fromLegacyText(format)) }
 
-            println(format.toLegacyText())
+            println(ChatColor.stripColor(format))
         }
     }
 
     fun addMember(member: ProxiedPlayer): Boolean {
         if (permission.isBlank() || member.hasPermission(permission)) {
-            members.put(member.uniqueId, ChannelMember(member))
+            members[member.uniqueId] = ChannelMember(member)
             return true
         }
         return false

@@ -1,4 +1,4 @@
 staff:
   triggers: ["!"]
   permission: "channel.staff"
-  format: "&c<&aStaff&c> &e<&b%server%&e> &d%user%&f: %message%"
+  format: "&c<&aStaff&c> &e<&b%server%&e> &d%user%&f: &4%message%"

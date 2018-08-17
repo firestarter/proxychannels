@@ -1,6 +1,7 @@
 package com.algorithmjunkie.mc.proxychannels.command
 
 import co.aikar.commands.BaseCommand
+import co.aikar.commands.annotation.CatchUnknown
 import co.aikar.commands.annotation.Default
 import co.aikar.commands.annotation.Subcommand
 import co.aikar.commands.annotation.UnknownHandler
@@ -14,7 +15,7 @@ import net.md_5.bungee.api.connection.ProxiedPlayer
 
 class ChannelCommand(private val channel: Channel) : BaseCommand(channel.name) {
     @Default
-    @UnknownHandler
+    @CatchUnknown
     fun onExecute(sender: CommandSender, args: Array<String>) {
         if (sender == ProxyServer.getInstance().console || sender is ProxiedPlayer && channel.hasMember(sender)) {
             if (args.isEmpty()) {

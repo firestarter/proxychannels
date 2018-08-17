@@ -2,6 +2,7 @@ package com.algorithmjunkie.mc.proxychannels.listener
 
 import com.algorithmjunkie.mc.proxychannels.ProxyChannelsPlugin
 import com.imaginarycode.minecraft.redisbungee.events.PubSubMessageEvent
+import net.md_5.bungee.api.ChatColor
 import net.md_5.bungee.api.chat.TextComponent
 import net.md_5.bungee.api.plugin.Listener
 import net.md_5.bungee.event.EventHandler
@@ -18,7 +19,7 @@ class RedisBungeeListener(private val plugin: ProxyChannelsPlugin): Listener {
                     .map { it.value.member }
                     .forEach { it.sendMessage(*TextComponent.fromLegacyText(split[1])) }
 
-            println(split[1])
+            println(ChatColor.stripColor(split[1]))
         }
     }
 }
