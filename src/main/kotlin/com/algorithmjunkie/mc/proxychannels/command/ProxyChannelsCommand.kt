@@ -10,7 +10,7 @@ import net.md_5.bungee.api.ChatColor
 import net.md_5.bungee.api.CommandSender
 import net.md_5.bungee.api.chat.ComponentBuilder
 
-@CommandAlias("proxychannels|pc")
+@CommandAlias("proxychannels")
 class ProxyChannelsCommand(private val plugin: ProxyChannelsPlugin) : BaseCommand() {
     @Subcommand("reload|rel")
     @CommandPermission("proxychannels.admin")
